@@ -1,7 +1,7 @@
 class Ball{
     //system stuff
     
-    float G = 6.0/7; 
+    float G = 6.7/10; 
     //gravitional constant, feel free to adjust. 
     //I will try to set the default value to a optimal one and make the simulation look right
     
@@ -21,8 +21,9 @@ class Ball{
 
     float mass;
     float radius;
-    float elasticity = 1 ; //decay factor for collision; set 1 for no effect
-    float friction = .99; // decay factor but to balance things out
+    float elasticity = 1.01 ; //decay factor for collision; set 1 for no effect
+    float friction = .999; // decay factor but to balance things out
+    float bindingConstant =1; //constant to tune the KE needed to shatter apart planets
 
     Ball(float x, float y, float xVel, float yVel){
         location = new PVector(x,y);
@@ -82,7 +83,45 @@ class Ball{
         force.mult(strength);
         other.applyForce(force);
     }
+    boolean collideCheck(Ball other){
+        float r1 = this.radius;
+        float r2 = other.radius;
+        float rTotal = r1 + r2;
+        float xDist = abs(this.location.x - other.location.y);
+        float yDist = abs(this.location.y - other.location.y);
+        float dist = pow((xDist * xDist) + (yDist * yDist), 1.0/2);
+        if(dist <= rTotal){ return true;}
+        else{return false;}
+    }
+    void collision(Ball other){
+        float massRatio = max(this.mass, other.mass);
+        PVector normal = PVector.sub(this.location, other.location);
+        normal.normalize();
 
+        float v1n = this.velocity.dot(normal);
+        float v2n = other.velocity.dot(normal);
+        float relativeNormSpeed = abs(v2n - v1n);
+
+        float KE = (0.5 * this.mass * v1n * v1n) + (0.5 * other.mass * v2n * v2n);
+        
+        //three cases
+        // similar size, and the KE is high then, they shatter each other
+                //similar size, KE is low then they merge
+            if(massRatio < 2){
+
+            }
+   
+        //big size diff, they merge            
+        
+    }
+
+
+    void shatter(Ball self){
+
+    }
+    void merge(Ball other){
+
+    }
     void display() {
         stroke(1);
         strokeWeight(2);
