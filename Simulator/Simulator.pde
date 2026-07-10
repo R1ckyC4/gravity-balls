@@ -27,6 +27,7 @@ void draw(){
     //for mouse grav
     for (int i = 0; i < ballList.size(); i++){
         Ball b = ballList.get(i);
+        if(b.dead) {continue;}
         if (mouseWell != null){
             mouseWell.attract(b);
         }
@@ -34,13 +35,23 @@ void draw(){
         for(int j = 0; j < ballList.size(); j++){
             if (i != j){
                 Ball other = ballList.get(j);
+                if (other.dead) {continue;}
                 b.attract(other);
+                if (b.collideCheck(other)){
+                    b.collision(other);
+                }
             }
         }
     b.move();
     b.bounce();
     b.display();
     }
+    for (int i = ballList.size() - 1; i >= 0; i--){
+        if (ballList.get(i).dead){
+            ballList.remove(i);
+        }
+    }
+    //clean 
     //UI
     fill(0);
     textSize(16);
