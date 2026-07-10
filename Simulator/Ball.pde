@@ -25,15 +25,34 @@ class Ball{
     float friction; // decay factor but to balance things out
 
     Ball(float x, float y, float xVel, float yVel){
-        location = new PVector(x,y)
-        velocity = new PVector(xVel, yVel)
-        acceleration = new PVector(0,0)
+        location = new PVector(x,y);
+        velocity = new PVector(xVel, yVel);
+        acceleration = new PVector(0,0);
 
-        c = color(random(255),random(255),random(255))
+        c = color(random(255),random(255),random(255));
 
-        mass = random 
+        mass = random(massLower, massUpper);
+        //scale area to the mass.
+        
+        radius = pow(mass, 1.0/2.0) / 3.14;
+
     }    
 
+    void move(){
+        velocity.add(acceleration);
+        location.add(velocity);
+        velocity.limit(speedLimit);
+        velocity.mult(friction);
+        acceleration.mult(0);
+
+    }
+
+    void bounce(){
+        if(location.x > width){
+
+        }
+
+    }
 
 
 }
