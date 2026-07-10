@@ -1,8 +1,8 @@
 ArrayList<Ball> ballList;
 
-float maxSpeed = 5; //spawn max speed, not system max
+float maxSpeed = 20; //spawn max speed, not system max
 
-float wellMass = 10000; // for later goofy if you want to use your mouse as a gravity well. 
+float wellMass = 5000; // for later goofy if you want to use your mouse as a gravity well. 
 
 void setup(){
     size(1280, 720);
@@ -60,12 +60,17 @@ void draw(){
     if(mouseWell != null){
         gravityStatus = "Active";
 } else{gravityStatus = "Off";}
-    text("Left Click to Spawn Ball | Right Click (Gravity) add shift for anti grav [" + gravityStatus + "]", 20, 30);
+    text("Left Click to Spawn Ball | Right Click (Gravity) add shift for anti grav [" + gravityStatus + "] | r : Reset"  , 20, 30);
 
 }
 void mousePressed(){
     if (mouseButton == LEFT){
         ballList.add(new Ball(mouseX, mouseY, random(-1 * maxSpeed, maxSpeed), random(-1 * maxSpeed, maxSpeed)));
+    }
+}
+void keyPressed(){
+    if (key == 'r' || key == 'R'){
+        ballList.clear();
     }
 }
 

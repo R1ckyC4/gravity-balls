@@ -1,17 +1,17 @@
 class Ball{
     //system stuff
     
-    float G = 6.7/10; 
+    float G = 6.7/30; 
     //gravitional constant, feel free to adjust. 
     //I will try to set the default value to a optimal one and make the simulation look right
     
-    float speedLimit = 100; 
+    float speedLimit = 500; 
     //by spawning balls with mass and velocity out of thin air, 
     //system might not conserve energy and balls might go berserk
     
     
-    float massLower = 150;
-    float massUpper = 1000;
+    float massLower = 300;
+    float massUpper = 600;
 
     //ball stuff
     PVector location;
@@ -23,9 +23,12 @@ class Ball{
     float radius;
     float elasticity = 1.01 ; //decay factor for collision; set 1 for no effect
     float friction = .999; // decay factor but to balance things out
-    float bindingConstant =5; //constant to tune the KE needed to shatter apart planets
-
+    float bindingConstant =.5; //constant to tune the KE needed to shatter apart planets
+    float energyConserve = .98; // so that some mass is lost even after a merge
     boolean dead = false; //if true, then the loop will delete it 
+
+
+
 
     Ball(float x, float y, float xVel, float yVel){
         location = new PVector(x,y);
@@ -62,7 +65,7 @@ class Ball{
         if (location.y > height - this.radius){
             velocity.y *= -1 * elasticity;
         }
-        if (location.y < this.radius){
+        if (location.y < this.radius ){
             velocity.y *= -1 * elasticity;
         }    
     }
@@ -150,12 +153,12 @@ class Ball{
         //conserve momentum using p = mv
 
         PVector newVel = PVector.add(PVector.mult(this.velocity, this.mass), PVector.mult(other.velocity, other.mass));
-        float newMass = this.mass + other.mass;
+        float newMass = this.mass + other.mass * .8;
         newVel.div(newMass);
 
         //bigger absorve small
 
-        this.mass = newMass;
+        this.mass = newMass * energyConserve ;
         this.radius = pow(newMass, 1.0/2.0) / 3.14;
         this.velocity = newVel;
 
