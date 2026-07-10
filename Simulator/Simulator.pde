@@ -5,7 +5,7 @@ float maxSpeed = 5; //spawn max speed, not system max
 float wellMass = 10000; // for later goofy if you want to use your mouse as a gravity well. 
 
 void setup(){
-    size(1000,600);
+    size(1280, 720);
     ballList = new ArrayList<Ball>();
     
 }
@@ -14,13 +14,13 @@ void draw(){
     Ball mouseWell = null;
 
     //Right click for grav
-    if (mousePressed & (mouseButton == RIGHT)){
+    if (mousePressed && (mouseButton == RIGHT) && !keyPressed){
         mouseWell = new Ball(mouseX, mouseY, 0,0);
         mouseWell.mass = wellMass;
     }
     //right shift click for anti grav, which is disperse
 
-    if (mousePressed && (mouseButton == LEFT)){
+    if (mousePressed && (mouseButton == RIGHT && keyCode == SHIFT)){
         mouseWell = new Ball(mouseX, mouseY, 0,0);
         mouseWell.mass = wellMass * -1; //equations should hold up i hope
     }

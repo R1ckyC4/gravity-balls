@@ -23,7 +23,7 @@ class Ball{
     float radius;
     float elasticity = 1.01 ; //decay factor for collision; set 1 for no effect
     float friction = .999; // decay factor but to balance things out
-    float bindingConstant =1; //constant to tune the KE needed to shatter apart planets
+    float bindingConstant =5; //constant to tune the KE needed to shatter apart planets
 
     boolean dead = false; //if true, then the loop will delete it 
 
@@ -51,18 +51,18 @@ class Ball{
     }
 
     void bounce(){
-        if(location.x > width){
+        if(location.x > width - this.radius){
             velocity.x *= -1 * elasticity;
 
         }
-        if(location.x < 0){
+        if(location.x < this.radius){
             velocity.x *= -1 * elasticity;
         }
 
-        if (location.y > height){
+        if (location.y > height - this.radius){
             velocity.y *= -1 * elasticity;
         }
-        if (location.y < 0){
+        if (location.y < this.radius){
             velocity.y *= -1 * elasticity;
         }    
     }
