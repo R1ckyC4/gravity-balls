@@ -11,6 +11,13 @@ I hope to create a full physics engine in the future, but we all start somewhere
 
 
     The PVector library is used to represent and compute Vectors.
+
+    The momentum equation nets us the velocity of a ball after an collsion. If two balls are to merge after a collision, then that will be represented by an inelastic euqation. 
+    However, if it is to shatter, then the left over KE from the collision that is needed to overcome the binding energy can be used. That should be equal to the sum of the KE of the new fragments.  
 #How to use 
-    Click run for simulation to run.
+    Click run for simulation to run. (in the IDE)
     Left click anywhere to spawn balls in. And watch!
+    
+    Right click to use your cursor as a gravity well, shift + right click to make it negative mass for dispersion. 
+
+

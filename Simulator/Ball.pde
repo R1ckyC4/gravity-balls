@@ -1,7 +1,7 @@
 class Ball{
     //system stuff
     
-    float G = 6.7/30; 
+    float G = 6.7/40; 
     //gravitional constant, feel free to adjust. 
     //I will try to set the default value to a optimal one and make the simulation look right
     
@@ -10,7 +10,7 @@ class Ball{
     //system might not conserve energy and balls might go berserk
     
     
-    float massLower = 300;
+    float massLower = 150;
     float massUpper = 600;
 
     //ball stuff
@@ -22,7 +22,7 @@ class Ball{
     float mass;
     float radius;
     float elasticity = 1.01 ; //decay factor for collision; set 1 for no effect
-    float friction = .999; // decay factor but to balance things out
+    float friction = .99999; // decay factor but to balance things out
     float bindingConstant =.5; //constant to tune the KE needed to shatter apart planets
     float energyConserve = .98; // so that some mass is lost even after a merge
     boolean dead = false; //if true, then the loop will delete it 

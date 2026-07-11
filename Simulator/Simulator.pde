@@ -1,6 +1,6 @@
 ArrayList<Ball> ballList;
 
-float maxSpeed = 20; //spawn max speed, not system max
+float maxSpeed = 5; //spawn max speed, not system max
 
 float wellMass = 5000; // for later goofy if you want to use your mouse as a gravity well. 
 
