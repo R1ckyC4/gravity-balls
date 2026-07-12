@@ -23,9 +23,11 @@ class Ball{
     float radius;
     float elasticity = 1.01 ; //decay factor for collision; set 1 for no effect
     float friction = .99999; // decay factor but to balance things out
-    float bindingConstant =.5; //constant to tune the KE needed to shatter apart planets
-    float energyConserve = .98; // so that some mass is lost even after a merge
+    float bindingConstant =2.67; //constant to tune the KE needed to shatter apart planets
+    float energyConserve = .999; // so that some mass is lost even after a merge
     boolean dead = false; //if true, then the loop will delete it 
+
+    float shatterRatio = 2.5; //determines if a collsion will lead to shattering. Higher number the more common it is. 
 
 
 
@@ -99,21 +101,20 @@ class Ball{
         else{return false;}
     }
     void collision(Ball other){
+        if (this.dead || other.dead) {return;}
         float massRatio = max(this.mass, other.mass) / min(this.mass, other.mass);
         PVector normal = PVector.sub(this.location, other.location);
         normal.normalize();
 
         float v1n = this.velocity.dot(normal);
         float v2n = other.velocity.dot(normal);
-        float relativeNormSpeed = abs(v2n - v1n);
-
         float KE = (0.5 * this.mass * v1n * v1n) + (0.5 * other.mass * v2n * v2n);
         
         float bindingEnergy = (this.mass + other.mass) * bindingConstant;
         //three cases
         // similar size, and the KE is high then, they shatter each other
                 //similar size, KE is low then they merge
-            if(massRatio < 2){
+            if(massRatio < shatterRatio){
                 if(KE > bindingEnergy){
                     this.shatter();
                     other.shatter();
@@ -143,7 +144,7 @@ class Ball{
                 );
                 frag.mass = fragMass;
                 frag.radius = pow(fragMass, 1.0/2.0) / 3.14;
-
+                this.dead = true;
                 ballList.add(frag);
             }
         }
@@ -153,7 +154,7 @@ class Ball{
         //conserve momentum using p = mv
 
         PVector newVel = PVector.add(PVector.mult(this.velocity, this.mass), PVector.mult(other.velocity, other.mass));
-        float newMass = this.mass + other.mass * .8;
+        float newMass = this.mass + other.mass * .9;
         newVel.div(newMass);
 
         //bigger absorve small
@@ -164,6 +165,8 @@ class Ball{
 
         other.dead = true;
     }
+    
+
     void display() {
         stroke(1);
         strokeWeight(2);

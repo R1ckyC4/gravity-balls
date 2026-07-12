@@ -1,16 +1,30 @@
 ArrayList<Ball> ballList;
 
-float maxSpeed = 5; //spawn max speed, not system max
+float maxSpeed = 8; //spawn max speed, not system max
 
 float wellMass = 5000; // for later goofy if you want to use your mouse as a gravity well. 
 
+boolean trails = false;
+
+int W = 1280;
+int H = 720;
+
+float largestMass = 0;
+void settings(){
+    size(W,H);
+}
 void setup(){
-    size(1280, 720);
     ballList = new ArrayList<Ball>();
     
 }
 void draw(){
-    background(173, 216, 230);
+
+    if (trails){
+        fill(173, 216,230, 67);
+        noStroke();
+        rect(0,0,width,height);
+    }
+    else{background(173, 216, 230);}
     Ball mouseWell = null;
 
     //Right click for grav
@@ -28,6 +42,11 @@ void draw(){
     for (int i = 0; i < ballList.size(); i++){
         Ball b = ballList.get(i);
         if(b.dead) {continue;}
+
+        //update largestMass tracker
+
+        if (b.mass > largestMass) {largestMass = b.mass;}
+
         if (mouseWell != null){
             mouseWell.attract(b);
         }
@@ -53,6 +72,9 @@ void draw(){
     }
     //clean 
     //UI
+    fill(173, 216, 230);
+    noStroke();
+    rect(0, 0, width, 40);
     fill(0);
     textSize(16);
 
@@ -60,8 +82,8 @@ void draw(){
     if(mouseWell != null){
         gravityStatus = "Active";
 } else{gravityStatus = "Off";}
-    text("Left Click to Spawn Ball | Right Click (Gravity) add shift for anti grav [" + gravityStatus + "] | r : Reset"  , 20, 30);
-
+    text("Left Click to Spawn Ball | Right Click (Gravity) add shift for anti grav [" + gravityStatus + "] | r : Reset | e for trails | t for particle collider :)"  , 20, 30);
+    text("Balls: " + ballList.size() + " | Largest Ball: " + int(largestMass), 20, 50);
 }
 void mousePressed(){
     if (mouseButton == LEFT){
@@ -71,6 +93,26 @@ void mousePressed(){
 void keyPressed(){
     if (key == 'r' || key == 'R'){
         ballList.clear();
+        largestMass = 0;
+        background(173, 216, 230);
+    }
+    if ( key == 't' || key == 'T'){
+        tester();
+    }
+    if (key == 'e' || key == 'E'){
+        trails = !trails;
+        if (!trails) {background(173,216,230);} 
     }
 }
+
+void tester(){ // this method will be used to spawn 2 balls to collide to try and fix the shatter() method
+        Ball t1 = new Ball( W/4, H/2, 10, 0);
+        t1.mass = 300;
+        Ball t2 = new Ball(3 * (W/4), H/2, -10, 0);
+        t2.mass = 300;
+
+        ballList.add(t1);
+        ballList.add(t2);
+        
+    }
 
