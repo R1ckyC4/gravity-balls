@@ -4,7 +4,7 @@ I hope to create a full physics engine in the future, but we all start somewhere
 
 # requirements
 You will need to use Java processing to run this simulation (its free :)
-[java Processing] (https://processing.org/download)
+[java Processing](https://processing.org/download)
 
 # how this works: physics (nerd babble)
     After an apple fell onto Sir Issac Newton's Head, he formulated the equation F = Gmm/r^2 and F = ma. (nerd)
@@ -17,7 +17,7 @@ You will need to use Java processing to run this simulation (its free :)
     then you end up with an perfectly circular orbit. 
 
 
-    The PVector library is used to represent and compute Vectors.
+    The PVector library handles all Vector math.
 
     The momentum equation nets us the velocity of a ball after an collsion. If two balls are to merge after a collision, 
     then that will be represented by an inelastic euqation. 
@@ -28,5 +28,8 @@ You will need to use Java processing to run this simulation (its free :)
     Left click anywhere to spawn balls in. And watch!
     
     Right click to use your cursor as a gravity well, shift + right click to make it negative mass for dispersion. 
+    r: resets the sim
+    e: toggles trails
+    t: spawns 2 oppositely facing balls to collide against each other. Best to see collisions and shattering. 
 
 
